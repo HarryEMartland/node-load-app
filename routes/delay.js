@@ -1,10 +1,19 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const os = require('os');
 
-router.get('/delay/:time', function (req, res, next) {
+router.all('/delay/:time', function (req, res, next) {
+
+    const startTime = new Date().getTime();
 
     setTimeout(() => {
-        res.send({time: req.params.time});
+        const endTime = new Date().getTime();
+
+        res.send({
+            time: req.params.time,
+            hostname: os.hostname(),
+            serverTimeTaken: endTime - startTime
+        });
     }, req.params.time)
 
 });
